@@ -10,5 +10,7 @@
   "author": "Russell Murray",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.14.0" }
+    "cansecurity": "^2.0.0",
+    "express": "^4.14.0"
+  }
 }

@@ -1,4 +1,5 @@
 const express = require('express');
+const cs = require('cansecurity');
 const app = express();
 
 app.get('/', function(req, res){
