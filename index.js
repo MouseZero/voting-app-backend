@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const config = require('./config');
+const Users = require('./user');
 
 app.set('superSecret', config.secret);
 
@@ -19,6 +20,10 @@ apiRoutes.get('/', function(req, res){
   res.json({
     test: 'you accessed the api uris'
   });
+});
+
+apiRoutes.get('/users', function(req, res){
+  res.json(Users.getUser('testuser'))
 });
 
 app.use('/api', apiRoutes);

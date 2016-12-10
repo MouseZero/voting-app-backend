@@ -4,6 +4,7 @@ module.exports = {
     user: 'testuser',
     password: 'password'
   },
+
   isUser(user){
     return (user = testUserData.user)
   },
