@@ -13,6 +13,16 @@ app.get('/', function(req, res){
   res.send('Welcome to a great api');
 })
 
+const apiRoutes = express.Router();
+
+apiRoutes.get('/', function(req, res){
+  res.json({
+    test: 'you accessed the api uris'
+  });
+});
+
+app.use('/api', apiRoutes);
+
 app.listen(3333, function(){
   console.log('started server');
 })
