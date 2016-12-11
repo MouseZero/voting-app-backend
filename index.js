@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const config = require('./config');
-const Users = require('./user');
+const users = require('./user.js');
 
 app.set('superSecret', config.secret);
 
@@ -16,6 +16,25 @@ app.get('/', function(req, res){
 
 const apiRoutes = express.Router();
 
+apiRoutes.post('/authenticate', function(req, res){
+  const userInfo = users.getUser(req.body.name);
+  if(users.isUser(req.body.name)){
+    if(req.body.password !== '' && req.body.password === userInfo.password){
+      res.json({
+        token: 'some token'
+      });
+    }else{
+      res.json({
+        error: 'Wrong password'
+      });
+    }
+  }else{
+    res.json({
+      error: 'No user by that name'
+    });
+  }
+});
+
 apiRoutes.get('/', function(req, res){
   res.json({
     test: 'you accessed the api uris'
@@ -23,7 +42,7 @@ apiRoutes.get('/', function(req, res){
 });
 
 apiRoutes.get('/users', function(req, res){
-  res.json(Users.getUser('testuser'))
+  res.json(users.getUser('testuser'))
 });
 
 app.use('/api', apiRoutes);

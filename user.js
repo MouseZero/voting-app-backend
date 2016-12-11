@@ -1,7 +1,7 @@
 module.exports={
 
   isUser(user){
-    return (user = 'testuser')
+    return (user === 'testuser')
   },
 
   getUser(user){
