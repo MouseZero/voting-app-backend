@@ -20,16 +20,22 @@ apiRoutes.post('/authenticate', function(req, res){
   const userInfo = users.getUser(req.body.name);
   if(users.isUser(req.body.name)){
     if(req.body.password !== '' && req.body.password === userInfo.password){
+      const token = jwt.sign({id: userInfo.id}, app.get('superSecret'), {
+        expiresIn: 86400
+      });
       res.json({
-        token: 'some token'
+        success: true,
+        token: token
       });
     }else{
       res.json({
+        success: false,
         error: 'Wrong password'
       });
     }
   }else{
     res.json({
+      success: false,
       error: 'No user by that name'
     });
   }
