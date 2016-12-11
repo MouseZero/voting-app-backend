@@ -1,17 +1,16 @@
-module.exports = {
-  testUserData: {
-    id: 1,
-    user: 'testuser',
-    password: 'password'
-  },
+module.exports={
 
   isUser(user){
-    return (user = testUserData.user)
+    return (user = 'testuser')
   },
 
   getUser(user){
-    if(user = testUserData.user){
-      return testUserData;
+    if(user = 'testuser'){
+      return {
+        id: 1,
+        user: 'testuser',
+        password: 'password'
+      }
     }else{
       return {
         error: 'No user with that name'
