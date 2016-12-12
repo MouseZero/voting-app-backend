@@ -20,13 +20,6 @@ module.exports = function databaseSetup(){
       return console.error('Error fetching client pool for postgres db', err);
     }
 
-    client.query('DROP TABLE "user"', [], function(err){
-      done();
-      if(err){
-        return console.error('error runngin query', err);
-      }
-    });
-
     client.query('CREATE TABLE "user" ( id serial NOT NULL, "user" character(30) NOT NULL, password character(100) NOT NULL, CONSTRAINT unique_id UNIQUE (id), CONSTRAINT unique_user UNIQUE ("user") ) WITH ( OIDS=FALSE );', [], function(err, result){
       done();
       if(err){
