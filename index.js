@@ -4,9 +4,6 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const config = require('./config');
 const users = require('./user.js');
-const dbSetup = require('./tools/databaseSetup');
-
-dbSetup();
 
 app.set('superSecret', config.secret);
 
