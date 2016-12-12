@@ -1,16 +1,5 @@
 const pg = require('pg');
-const config = require('../config');
-
-const dbPoolSettings = {
-  user: config.database.user,
-  database: config.database.database,
-  password: config.database.password,
-  host: config.database.host,
-  port: config.database.port,
-  max: config.database.connectionNumber,
-  idleTimeoutMillis: config.database.idleTimeoutMillis,
-};
-
+const dbPoolSettings = require('../dbpoolconfig');
 const pool = new pg.Pool(dbPoolSettings);
 
 pool.connect( function(err, client, done){
