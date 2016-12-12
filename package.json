@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "db_setup": "node tools/databaseSetup.js"
+    "db_setup": "node tools/databaseSetup.js",
+    "db_seed": "node tools/databaseSeed.js"
   },
   "author": "Russell Murray",
   "license": "ISC",
