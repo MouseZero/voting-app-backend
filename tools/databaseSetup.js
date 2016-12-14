@@ -1,6 +1,6 @@
 const pg = require('pg');
-const dbPoolSettings = require('../dbpoolconfig');
-const pool = new pg.Pool(dbPoolSettings);
+const config = require('../dbpoolconfig');
+const pool = new pg.Pool(config);
 
 pool.connect( function(err, client, done){
   if(err){
@@ -10,7 +10,7 @@ pool.connect( function(err, client, done){
   client.query(
     //Create User Table
     `
-    CREATE TABLE "user"
+    CREATE TABLE "${config.names.userTable}"
     (
       id serial NOT NULL,
       "user" character(30) NOT NULL,
@@ -24,7 +24,7 @@ pool.connect( function(err, client, done){
     ` +
     //Create Chart Table
     `
-    CREATE TABLE charts
+    CREATE TABLE "${config.names.chartTable}"
     (
       id serial NOT NULL,
       title character(150),
@@ -33,7 +33,7 @@ pool.connect( function(err, client, done){
       "userId" integer NOT NULL,
       CONSTRAINT charts_pkey PRIMARY KEY (id),
       CONSTRAINT lnk_user_charts FOREIGN KEY ("userId")
-          REFERENCES "user" (id) MATCH FULL
+          REFERENCES "${config.names.userTable}" (id) MATCH FULL
           ON UPDATE RESTRICT ON DELETE CASCADE
     )
     WITH (

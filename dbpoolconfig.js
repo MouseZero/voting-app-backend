@@ -8,4 +8,8 @@ module.exports = {
   port: config.database.port,
   max: config.database.connectionNumber,
   idleTimeoutMillis: config.database.idleTimeoutMillis,
+  names: {
+    chartTable: 'charts',
+    userTable: 'users'
+  }
 }
