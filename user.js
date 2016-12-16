@@ -5,7 +5,6 @@ module.exports={
   },
 
   getUser(user){
-    console.log(user);
     if(user === 'testuser'){
       return {
         id: 1,
