@@ -1,7 +1,11 @@
 const express = require('express');
 const apiRoutes = express.Router();
 const jwt = require('jsonwebtoken');
-const users = require('../user.js');
+
+const pg = require('pg');
+const config = require('../dbpoolconfig');
+const pool = new pg.Pool(config);
+const users = require('../persistence/user.js')(pool);
 
 module.exports = function(app, express){
 
