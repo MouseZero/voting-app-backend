@@ -11,33 +11,21 @@ module.exports = function(app, express){
 
   apiRoutes.post('/authenticate', function(req, res){
     const userInfo = users.getUser(req.body.name);
-    userProm = users.isUser(req.body.name)
-    userProm.then(function(x){
-      res.json({success: true, user: x})
+    isUser = users.isUser(req.body.name)
+    isUser.then(function(isUser){
+      if(isUser){
+        userData = users.getUser(req.body.name);
+        userData.then(function(userData){
+          res.json(userData);
+        }).catch(function (err){
+          console.log(err);
+        });
+      } else {
+        res.json({success: false, message: 'That is not a valid user'})
+      }
     }).catch(function(x){
       res.json({success: false, message: x});
     })
-    // if(users.isUser(req.body.name)){
-    //   if(req.body.password !== '' && req.body.password === userInfo.password){
-    //     const token = jwt.sign({id: userInfo.id}, app.get('superSecret'), {
-    //       expiresIn: 86400
-    //     });
-    //     res.json({
-    //       success: true,
-    //       token: token
-    //     });
-    //   }else{
-    //     res.json({
-    //       success: false,
-    //       error: 'Wrong password'
-    //     });
-    //   }
-    // }else{
-    //   res.json({
-    //     success: false,
-    //     error: 'No user by that name'
-    //   });
-    // }
   });
 
   apiRoutes.use(function(req, res, next){
