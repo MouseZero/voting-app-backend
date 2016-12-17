@@ -20,7 +20,7 @@ module.exports=function(pool){
       return new Promise( function(resolve, reject) {
         const queryPromise = query(`select * from users where "user" = '${user}';`);
         queryPromise.then(function (x) {
-          resolve(x.rows);
+          resolve(x.rows[0]);
         }).catch(function (err) {
           reject(err);
         });

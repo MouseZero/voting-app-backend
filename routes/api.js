@@ -12,17 +12,26 @@ module.exports = function(app, express){
   apiRoutes.post('/authenticate', function(req, res){
     const userInfo = users.getUser(req.body.name);
     isUser = users.isUser(req.body.name)
+
     isUser.then(function(isUser){
+
       if(isUser){
         userData = users.getUser(req.body.name);
         userData.then(function(userData){
-          res.json(userData);
+          const token = jwt.sign({id: userData.id}, app.get('superSecret'), {
+            expiresIn: 86400
+          })
+          res.json({
+            success: true,
+            token: token
+          });
         }).catch(function (err){
           console.log(err);
         });
       } else {
         res.json({success: false, message: 'That is not a valid user'})
       }
+
     }).catch(function(x){
       res.json({success: false, message: x});
     })
