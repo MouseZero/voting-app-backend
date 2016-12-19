@@ -38,11 +38,12 @@ module.exports = function(app, express){
   });
 
   apiRoutes.post('/test', function(req, res){
-    const addUser = users.createNewUser('test3', 'password');
+    const addUser = users.createNewUser(req.body.name, req.body.password);
     addUser.then(function(created){
-      console.log('Createed user? ' + created);
-    })
-    res.json({success: true, message: 'testing api endpoint'})
+      res.json({success: true, message: `Created the ${req.body.name} user.`})
+    }).catch(function(err){
+      res.json({success: false, message: err});
+    });
   });
 
   // Middleware that requires a token for the rest of the API end points

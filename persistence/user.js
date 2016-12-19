@@ -32,9 +32,9 @@ module.exports=function(pool){
       return new Promise( function(resolve, reject){
         const queryPromise = query(`INSERT INTO ${USERTABLE} ("user", "password") VALUES ('${userName}', '${password}');`);
         queryPromise.then(function(x){
-          resolve(!!x.rows);
+          resolve();
         }).catch(function (err){
-          reject(err);
+          reject(`Could not create the user ${userName}. This user name may already be taken`);
         })
       });
     }
