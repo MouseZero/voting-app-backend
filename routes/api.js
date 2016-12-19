@@ -37,6 +37,15 @@ module.exports = function(app, express){
     })
   });
 
+  apiRoutes.post('/test', function(req, res){
+    const addUser = users.createNewUser('test3', 'password');
+    addUser.then(function(created){
+      console.log('Createed user? ' + created);
+    })
+    res.json({success: true, message: 'testing api endpoint'})
+  });
+
+  // Middleware that requires a token for the rest of the API end points
   apiRoutes.use(function(req, res, next){
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
     if(token){
