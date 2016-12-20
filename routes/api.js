@@ -17,6 +17,9 @@ module.exports = function(app, express){
       return users.getUser(req.body.name, req.body.password);
     })
     .then(function (userData){
+      return users.isRightPassword(req.body.password, userData);
+    })
+    .then(function (userData){
       const token = jwt.sign({id: userData.id}, app.get('superSecret'), {
         expiresIn: 86400
       });

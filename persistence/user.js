@@ -22,11 +22,23 @@ module.exports=function(pool){
       });
     },
 
+    isRightPassword(password, userData){
+      return new Promise(function(resolve, reject){
+        if(password === userData.password){
+          resolve(userData);
+        } else {
+          reject('Password was not a match');
+        }
+      });
+    },
+
     getUser(user, password){
       return new Promise( function(resolve, reject) {
         const queryPromise = query(`select * from ${USERTABLE} where "user" = '${user}';`);
         queryPromise.then(function (x) {
           const result = x.rows[0];
+          result.password = result.password.trim();
+          result.user = result.user.trim();
           resolve(result);
         }).catch(function (err) {
           reject(err);
