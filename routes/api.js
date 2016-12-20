@@ -10,13 +10,11 @@ const users = require('../persistence/user.js')(pool);
 module.exports = function(app, express){
 
   apiRoutes.post('/authenticate', function(req, res){
-    const userInfo = users.getUser(req.body.name);
     isUser = users.isUser(req.body.name)
 
-    isUser.then(function(isUser){
-
+    isUser.then(function(){
       if(isUser){
-        userData = users.getUser(req.body.name);
+        userData = users.getUser(req.body.name, req.body.password);
         userData.then(function(userData){
           const token = jwt.sign({id: userData.id}, app.get('superSecret'), {
             expiresIn: 86400
@@ -72,10 +70,6 @@ module.exports = function(app, express){
     res.json({
       test: 'you accessed the api uris'
     });
-  });
-
-  apiRoutes.get('/users', function(req, res){
-    res.json(users.getUser('testuser'))
   });
 
   app.use('/api', apiRoutes);

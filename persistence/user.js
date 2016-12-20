@@ -1,5 +1,6 @@
 const databaseQuerier = require('./query');
 const USERTABLE = '"users"';
+const bcrypt = require('bcrypt');
 
 module.exports=function(pool){
   const query = databaseQuerier(pool);
@@ -17,11 +18,12 @@ module.exports=function(pool){
       });
     },
 
-    getUser(user){
+    getUser(user, password){
       return new Promise( function(resolve, reject) {
         const queryPromise = query(`select * from ${USERTABLE} where "user" = '${user}';`);
         queryPromise.then(function (x) {
-          resolve(x.rows[0]);
+          const result = x.rows[0];
+          resolve(result);
         }).catch(function (err) {
           reject(err);
         });
@@ -30,12 +32,18 @@ module.exports=function(pool){
 
     createNewUser(userName, password){
       return new Promise( function(resolve, reject){
-        const queryPromise = query(`INSERT INTO ${USERTABLE} ("user", "password") VALUES ('${userName}', '${password}');`);
-        queryPromise.then(function(x){
-          resolve();
-        }).catch(function (err){
-          reject(`Could not create the user ${userName}. This user name may already be taken`);
-        })
+        bcrypt.hash(password, 9).then(function(hash) {
+          const queryPromise = query(`
+            INSERT INTO 
+            ${USERTABLE} ("user", "password") 
+            VALUES ('${userName}', '${hash}');
+          `);
+          queryPromise.then(function(x){
+            resolve();
+          }).catch(function (err){
+            reject(`Could not create the user ${userName}. This user name may already be taken`);
+          })
+        });
       });
     }
   }
