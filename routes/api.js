@@ -31,7 +31,7 @@ module.exports = function(app, express){
     })
   });
 
-  apiRoutes.post('/test', function(req, res){
+  apiRoutes.post('/create/user', function(req, res){
     const addUser = users.createNewUser(req.body.name, req.body.password);
     addUser.then(function(created){
       res.json({success: true, message: `Created the ${req.body.name} user.`})
@@ -60,7 +60,6 @@ module.exports = function(app, express){
       })
     }
   });
-
 
   apiRoutes.get('/', function(req, res){
     res.json({
