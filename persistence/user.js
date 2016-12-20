@@ -9,8 +9,8 @@ module.exports=function(pool){
       
     isUser(user){
       return new Promise(function(resolve, reject){
-        const queryPromise = query(`select * from ${USERTABLE} where "user" = '${user}';`);
-        queryPromise.then(function(x){
+        query(`select * from ${USERTABLE} where "user" = '${user}';`)
+        .then(function(x){
           if(!!x.rows.length){
             resolve();
           } else {
@@ -34,8 +34,8 @@ module.exports=function(pool){
 
     getUser(user, password){
       return new Promise( function(resolve, reject) {
-        const queryPromise = query(`select * from ${USERTABLE} where "user" = '${user}';`);
-        queryPromise.then(function (x) {
+        query(`select * from ${USERTABLE} where "user" = '${user}';`)
+        .then(function (x) {
           const result = x.rows[0];
           result.password = result.password.trim();
           result.user = result.user.trim();
