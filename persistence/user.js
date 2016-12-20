@@ -23,11 +23,12 @@ module.exports=function(pool){
     },
 
     isRightPassword(password, userData){
-      return new Promise(function(resolve, reject){
-        if(password === userData.password){
-          resolve(userData);
+      return bcrypt.compare(password, userData.password)
+      .then( function(isMatch){
+        if(isMatch){
+          return new Promise(resolve => {resolve(userData)});
         } else {
-          reject('Password was not a match');
+          return new Promise( (_, reject)=>{reject('Password did not match')});
         }
       });
     },
@@ -62,5 +63,6 @@ module.exports=function(pool){
         });
       });
     }
+
   }
 }
