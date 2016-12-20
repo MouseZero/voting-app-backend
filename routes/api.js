@@ -10,9 +10,7 @@ const users = require('../persistence/user.js')(pool);
 module.exports = function(app, express){
 
   apiRoutes.post('/authenticate', function(req, res){
-    isUser = users.isUser(req.body.name)
-
-    isUser
+    users.isUser(req.body.name)
     .then(function(){
       return users.getUser(req.body.name, req.body.password);
     })
