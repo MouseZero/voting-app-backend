@@ -12,7 +12,7 @@ module.exports = R.curry( function(pool, queryString){
         if(err){
           return reject('error running query:: ' + err);
         }
-        resolve(result);
+        resolve(result.rows);
         done();
       });
     });

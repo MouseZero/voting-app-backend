@@ -66,7 +66,7 @@ module.exports = function(app, express){
 
   apiRoutes.get('/', function(req, res){
     res.json({
-      test: 'you accessed the api uris'
+      test: 'you accessed the api URIs'
     });
   });
 
@@ -93,6 +93,13 @@ module.exports = function(app, express){
       })
     });
   });
+
+  apiRoutes.get('/charts', function(req, res){
+    charts.getChartList(req.decoded.id)
+    .then( function(x){
+      res.json(x);
+    })
+  })
 
 
   app.use('/api', apiRoutes);

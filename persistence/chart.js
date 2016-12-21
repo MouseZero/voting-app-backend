@@ -18,12 +18,20 @@ module.exports=function(pool){
       })
       return validateInput.then(function (){
         return query(`
-          INSERT INTO "charts" 
+          INSERT INTO ${CHARTSTABLE} 
           ("userId", "title", "description", "data") 
           VALUES 
           ('${userId}', '${title}', '${desc}', '${data}');
         `)
       })
+    },
+
+
+    getChartList(userId){
+      return query(`
+        SELECT * FROM ${CHARTSTABLE}
+        WHERE "userId" = '${userId}';
+      `)
     }
 
 
