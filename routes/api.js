@@ -11,6 +11,7 @@ const charts = require('../persistence/chart.js')(pool);
 
 module.exports = function(app, express){
 
+
   apiRoutes.post('/authenticate', function(req, res){
 
     users.isUser(req.body.name)
@@ -34,6 +35,7 @@ module.exports = function(app, express){
     })
   });
 
+
   apiRoutes.post('/create/user', function(req, res){
 
     users.createNewUser(req.body.name, req.body.password)
@@ -43,6 +45,7 @@ module.exports = function(app, express){
       res.json({success: false, message: err});
     });
   });
+
 
   // Middleware that requires a token for the rest of the API end points
   apiRoutes.use(function(req, res, next){
@@ -64,11 +67,13 @@ module.exports = function(app, express){
     }
   });
 
+
   apiRoutes.get('/', function(req, res){
     res.json({
       test: 'you accessed the api uris'
     });
   });
+
 
   apiRoutes.post('/create/chart', function(req, res){
     let token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -97,6 +102,7 @@ module.exports = function(app, express){
       })
     });
   });
+
 
   app.use('/api', apiRoutes);
 
