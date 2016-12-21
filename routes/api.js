@@ -6,6 +6,7 @@ const pg = require('pg');
 const config = require('../dbpoolconfig');
 const pool = new pg.Pool(config);
 const users = require('../persistence/user.js')(pool);
+const charts = require('../persistence/chart.js')(pool);
 
 module.exports = function(app, express){
 
@@ -69,15 +70,17 @@ module.exports = function(app, express){
   apiRoutes.post('/create/chart', function(req, res){
     let token = req.body.token || req.query.token || req.headers['x-access-token'];
     jwt.verify(token, app.get('superSecret'), function(err, decoded){
+      const chartObject = {
+        userId: decoded.id,
+        title: req.body.title,
+        desc: req.body.desc,
+        data: req.body.data
+      }
+      const create = charts.createChart(chartObject);
       res.json({
         id: decoded.id
       });
     })
-    // res.json({
-    //   name: req.body.name,
-    //   desc: req.body.desc,
-    //   data: req.body.data
-    // });
   });
 
   app.use('/api', apiRoutes);
