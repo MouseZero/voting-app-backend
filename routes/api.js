@@ -72,11 +72,17 @@ module.exports = function(app, express){
     jwt.verify(token, app.get('superSecret'), function(err, decoded){
       const chartObject = {
         userId: decoded.id,
-        title: req.body.title,
-        desc: req.body.desc,
-        data: req.body.data
+        title:  req.body.title,
+        desc:   req.body.desc,
+        data:   req.body.data
       }
-      const create = charts.createChart(chartObject);
+      charts.createChart(chartObject)
+      .then(function(){
+        console.log('finished')
+      })
+      .catch( function(err){
+        console.log('error');
+      })
       res.json({
         id: decoded.id
       });
