@@ -98,13 +98,26 @@ module.exports = function(app, express){
     charts.getChartList(req.decoded.id)
     .then( function(x){
       res.json(x);
+    }).catch( function(x){
+      res.json({
+        success: false,
+        message: x
+      });
     });
   });
 
   apiRoutes.get('/chart', function(req, res){
-    charts.getChart(req.decoded.id, 33)
+    charts.getChart(req.decoded.id, req.query.chartId)
     .then( function(x){
-      res.json(x);
+      res.json({
+        success: true,
+        info: x
+      });
+    }).catch( function(x){
+      res.json({
+        success: false,
+        message: x
+      });
     });
   });
 

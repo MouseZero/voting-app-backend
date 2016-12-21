@@ -35,11 +35,20 @@ module.exports=function(pool){
     },
 
     getChart(userId, chartId){
-      return query(`
+      const validateInput = new Promise( function(resolve, reject){
+        if(!userId || !chartId){
+          reject('There is at least one missing input field.');
+        } else{
+          resolve();
+        }
+      });
+      return validateInput.then(function (){
+        return query(`
         SELECT * FROM ${CHARTSTABLE}
         WHERE "userId" = ${userId}
         AND "id" = ${chartId};
-      `);
+        `);
+      });
     }
 
 
