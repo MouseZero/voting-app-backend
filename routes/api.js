@@ -81,10 +81,10 @@ module.exports = function(app, express){
       }
       return charts.createChart(chartObject)
     })
-    .then( function(x){
+    .then( function(x, err){
       res.json({
         success: true,
-        message: 'Added ' + title + ' to charts'
+        message: 'Added chart'
       })
     })
     .catch( function(err){
