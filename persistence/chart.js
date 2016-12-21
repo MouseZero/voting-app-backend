@@ -30,8 +30,16 @@ module.exports=function(pool){
     getChartList(userId){
       return query(`
         SELECT * FROM ${CHARTSTABLE}
-        WHERE "userId" = '${userId}';
+        WHERE "userId" = ${userId};
       `)
+    },
+
+    getChart(userId, chartId){
+      return query(`
+        SELECT * FROM ${CHARTSTABLE}
+        WHERE "userId" = ${userId}
+        AND "id" = ${chartId};
+      `);
     }
 
 

@@ -98,9 +98,15 @@ module.exports = function(app, express){
     charts.getChartList(req.decoded.id)
     .then( function(x){
       res.json(x);
-    })
-  })
+    });
+  });
 
+  apiRoutes.get('/chart', function(req, res){
+    charts.getChart(req.decoded.id, 33)
+    .then( function(x){
+      res.json(x);
+    });
+  });
 
   app.use('/api', apiRoutes);
 
