@@ -70,21 +70,25 @@ module.exports = function(app, express){
   apiRoutes.post('/create/chart', function(req, res){
     let token = req.body.token || req.query.token || req.headers['x-access-token'];
     jwt.verify(token, app.get('superSecret'), function(err, decoded){
+      const {title, desc, data} = req.body;
       const chartObject = {
         userId: decoded.id,
-        title:  req.body.title,
-        desc:   req.body.desc,
-        data:   req.body.data
+        title,
+        desc,
+        data
       }
       charts.createChart(chartObject)
-      .then(function(){
-        console.log('finished')
+      .then( function(x){
+        res.json({
+          success: true,
+          message: 'Added ' + title + ' to charts'
+        })
       })
       .catch( function(err){
-        console.log('error');
-      })
-      res.json({
-        id: decoded.id
+        res.json({
+          success: false,
+          message: err
+        })
       });
     })
   });

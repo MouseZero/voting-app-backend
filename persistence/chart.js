@@ -9,11 +9,9 @@ module.exports=function(pool){
     createChart({userId, title, desc, data}){
       const validateInput = new Promise( function(resolve, reject){
         if(!userId || !title || !desc || !data){
-          console.log('fails here');
           reject('Could not create the chart. There is at least one ' +
           'missing input field');
         } else {
-          console.log('gets here');
           resolve();
         }
 
@@ -26,10 +24,6 @@ module.exports=function(pool){
           ('${userId}', '${title}', '${desc}', '${data}');
         `)
       })
-      .then( function(x){
-        console.log(x);
-        return new Promise();
-      });
     }
 
 
