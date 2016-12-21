@@ -72,19 +72,14 @@ module.exports = function(app, express){
 
 
   apiRoutes.post('/create/chart', function(req, res){
-    let token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-    jwtPromise.verify(token, app.get('superSecret'))
-    .then( function (decoded){
       const {title, desc, data} = req.body;
       const chartObject = {
-        userId: decoded.id,
+        userId: req.decoded.id,
         title,
         desc,
         data
       }
-      return charts.createChart(chartObject)
-    })
+    charts.createChart(chartObject)
     .then( function(x, err){
       res.json({
         success: true,
