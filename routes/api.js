@@ -12,6 +12,7 @@ const charts = require('../persistence/chart.js')(pool);
 module.exports = function(app, express){
 
   apiRoutes.post('/authenticate', function(req, res){
+
     users.isUser(req.body.name)
     .then(function(){
       return users.getUser(req.body.name, req.body.password);
@@ -34,8 +35,9 @@ module.exports = function(app, express){
   });
 
   apiRoutes.post('/create/user', function(req, res){
-    const addUser = users.createNewUser(req.body.name, req.body.password);
-    addUser.then(function(created){
+
+    users.createNewUser(req.body.name, req.body.password)
+    .then(function(created){
       res.json({success: true, message: `Created the ${req.body.name} user.`})
     }).catch(function(err){
       res.json({success: false, message: err});
@@ -70,6 +72,7 @@ module.exports = function(app, express){
 
   apiRoutes.post('/create/chart', function(req, res){
     let token = req.body.token || req.query.token || req.headers['x-access-token'];
+
     jwtPromise.verify(token, app.get('superSecret'))
     .then( function (decoded){
       const {title, desc, data} = req.body;
