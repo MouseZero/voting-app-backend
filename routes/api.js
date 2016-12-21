@@ -1,6 +1,7 @@
 const express = require('express');
 const apiRoutes = express.Router();
 const jwt = require('jsonwebtoken');
+const jwtPromise = require('../util/jwtPromise');
 
 const pg = require('pg');
 const config = require('../dbpoolconfig');
@@ -69,7 +70,8 @@ module.exports = function(app, express){
 
   apiRoutes.post('/create/chart', function(req, res){
     let token = req.body.token || req.query.token || req.headers['x-access-token'];
-    jwt.verify(token, app.get('superSecret'), function(err, decoded){
+    jwtPromise.verify(token, app.get('superSecret'))
+    .then( function (decoded){
       const {title, desc, data} = req.body;
       const chartObject = {
         userId: decoded.id,
@@ -77,20 +79,20 @@ module.exports = function(app, express){
         desc,
         data
       }
-      charts.createChart(chartObject)
-      .then( function(x){
-        res.json({
-          success: true,
-          message: 'Added ' + title + ' to charts'
-        })
-      })
-      .catch( function(err){
-        res.json({
-          success: false,
-          message: err
-        })
-      });
+      return charts.createChart(chartObject)
     })
+    .then( function(x){
+      res.json({
+        success: true,
+        message: 'Added ' + title + ' to charts'
+      })
+    })
+    .catch( function(err){
+      res.json({
+        success: false,
+        message: err
+      })
+    });
   });
 
   app.use('/api', apiRoutes);
