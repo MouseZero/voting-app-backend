@@ -2,7 +2,6 @@ const express = require('express');
 const apiRoutes = express.Router();
 const jwt = require('jsonwebtoken');
 const jwtPromise = require('../util/jwtPromise');
-
 const pg = require('pg');
 const config = require('../dbpoolconfig');
 const pool = new pg.Pool(config);
@@ -13,7 +12,6 @@ module.exports = function(app, express){
 
 
   apiRoutes.post('/authenticate', function(req, res){
-
     users.isUser(req.body.name)
     .then(function(){
       return users.getUser(req.body.name, req.body.password);
@@ -37,7 +35,6 @@ module.exports = function(app, express){
 
 
   apiRoutes.post('/create/user', function(req, res){
-
     users.createNewUser(req.body.name, req.body.password)
     .then(function(created){
       res.json({success: true, message: `Created the ${req.body.name} user.`})
@@ -88,6 +85,7 @@ module.exports = function(app, express){
     });
   });
 
+
   apiRoutes.get('/charts', function(req, res){
     charts.getChartList(req.decoded.id)
     .then( function(x){
@@ -96,6 +94,7 @@ module.exports = function(app, express){
       res.json({success: false, message: err});
     });
   });
+
 
   apiRoutes.get('/chart', function(req, res){
     charts.getChart(req.decoded.id, req.query.chartId)
@@ -108,6 +107,7 @@ module.exports = function(app, express){
       res.json({success: false, message: err});
     });
   });
+
 
   app.use('/api', apiRoutes);
 
