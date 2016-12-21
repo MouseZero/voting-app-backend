@@ -27,9 +27,9 @@ pool.connect( function(err, client, done){
     CREATE TABLE "${config.names.chartTable}"
     (
       id serial NOT NULL,
-      title character(150),
-      description character(400),
-      data json,
+      title character(150) NOT NULL,
+      description character(400) NOT NULL,
+      data json NOT NULL,
       "userId" integer NOT NULL,
       CONSTRAINT charts_pkey PRIMARY KEY (id),
       CONSTRAINT lnk_user_charts FOREIGN KEY ("userId")
@@ -42,9 +42,9 @@ pool.connect( function(err, client, done){
     `, 
     [], 
     function(err, result){
-      done();
       if(err){
         return console.error('error running query', err);
       }
+      process.exit();
   });
 });

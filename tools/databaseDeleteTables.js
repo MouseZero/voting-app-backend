@@ -36,10 +36,10 @@ function deleteTables (pool, tables){
       deleteQuery,
       [],
       function(err, result){
-        done();
         if(err){
           return console.error('error running query', err);
         }
+        process.exit();
       }
     )
   })
