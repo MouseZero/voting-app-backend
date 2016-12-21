@@ -42,9 +42,8 @@ module.exports = function(app, express){
 
   // Middleware that requires a token for the rest of the API end points
   apiRoutes.use(function(req, res, next){
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+    let token = req.body.token || req.query.token || req.headers['x-access-token'];
     if(token){
-      console.log('jwt.verify not called yet ' + token);
       jwt.verify(token, app.get('superSecret'), function(err, decoded){
         if(err){
           return res.json({success: false, message: 'Failed to authenticate token'});
@@ -65,6 +64,20 @@ module.exports = function(app, express){
     res.json({
       test: 'you accessed the api uris'
     });
+  });
+
+  apiRoutes.post('/create/chart', function(req, res){
+    let token = req.body.token || req.query.token || req.headers['x-access-token'];
+    jwt.verify(token, app.get('superSecret'), function(err, decoded){
+      res.json({
+        id: decoded.id
+      });
+    })
+    // res.json({
+    //   name: req.body.name,
+    //   desc: req.body.desc,
+    //   data: req.body.data
+    // });
   });
 
   app.use('/api', apiRoutes);
