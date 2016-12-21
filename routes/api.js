@@ -30,8 +30,8 @@ module.exports = function(app, express){
         token: token
       });
     })
-    .catch(function(x){
-      res.json({success: false, message: x});
+    .catch(function(err){
+      res.json({success: false, message: err});
     })
   });
 
@@ -56,10 +56,7 @@ module.exports = function(app, express){
       next();
     })
     .catch( function(err){
-      res.json({
-        success: false,
-        message: err
-      });
+      res.json({success: false, message: err});
     });
   });
 
@@ -87,10 +84,7 @@ module.exports = function(app, express){
       })
     })
     .catch( function(err){
-      res.json({
-        success: false,
-        message: err
-      })
+      res.json({success: false, message: err});
     });
   });
 
@@ -98,11 +92,8 @@ module.exports = function(app, express){
     charts.getChartList(req.decoded.id)
     .then( function(x){
       res.json(x);
-    }).catch( function(x){
-      res.json({
-        success: false,
-        message: x
-      });
+    }).catch( function(err){
+      res.json({success: false, message: err});
     });
   });
 
@@ -113,11 +104,8 @@ module.exports = function(app, express){
         success: true,
         info: x
       });
-    }).catch( function(x){
-      res.json({
-        success: false,
-        message: x
-      });
+    }).catch( function(err){
+      res.json({success: false, message: err});
     });
   });
 
