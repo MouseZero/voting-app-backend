@@ -11,7 +11,7 @@ module.exports=function(pool){
       return new Promise(function(resolve, reject){
         query(`select * from ${USERTABLE} where "user" = '${user}';`)
         .then(function(x){
-          if(!!x.rows.length){
+          if(!!x.length){
             resolve();
           } else {
             reject('No such user');
@@ -37,7 +37,7 @@ module.exports=function(pool){
       return new Promise( function(resolve, reject) {
         query(`select * from ${USERTABLE} where "user" = '${user}';`)
         .then(function (x) {
-          const result = x.rows[0];
+          const result = x[0];
           result.password = result.password.trim();
           result.user = result.user.trim();
           resolve(result);
