@@ -90,7 +90,8 @@ module.exports = function(app, express){
     charts.getChartList(req.decoded.id)
     .then( function(x){
       res.json(x);
-    }).catch( function(err){
+    })
+    .catch( function(err){
       res.json({success: false, message: err});
     });
   });
@@ -103,9 +104,18 @@ module.exports = function(app, express){
         success: true,
         info: x
       });
-    }).catch( function(err){
+    })
+    .catch( function(err){
       res.json({success: false, message: err});
     });
+  });
+
+  apiRoutes.post('/delete/chart', function(req, res){
+    charts.deleteChart(req.decoded.id, req.body.chartId)
+    .then( function(x){
+      res.json({success: true, info: x})
+    })
+    .catch( function(err){res.json({success: false, message: err});});
   });
 
 

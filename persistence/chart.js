@@ -52,6 +52,17 @@ module.exports=function(pool){
       });
     },
 
+    deleteChart(userId, chartId){
+      return validateHasAllInput(2, userId, chartId)
+      .then( function(){
+        return query(`
+          DELETE FROM ${CHARTSTABLE}
+          WHERE "userId" = ${userId}
+          AND "id" = ${chartId};
+        `);
+      })
+    }
+
 
   }
 }
