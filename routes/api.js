@@ -89,7 +89,10 @@ module.exports = function(app, express){
   apiRoutes.get('/charts', function(req, res){
     charts.getChartList(req.decoded.id)
     .then( function(x){
-      res.json(x);
+        res.json({
+            success: true,
+            charts: x
+        });
     })
     .catch( function(err){
       res.json({success: false, message: err});
