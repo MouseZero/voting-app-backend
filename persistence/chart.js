@@ -21,9 +21,9 @@ module.exports=function(pool){
       return validateHasAllInput(4, userId, title, desc, data)
       .then(function (){
         return query(`
-          INSERT INTO ${CHARTSTABLE} 
-          ("userId", "title", "description", "data") 
-          VALUES 
+          INSERT INTO ${CHARTSTABLE}
+          ("userId", "title", "description", "data")
+          VALUES
           ('${userId}', '${title}', '${desc}', '${data}');
         `)
       })
@@ -41,13 +41,12 @@ module.exports=function(pool){
     },
 
 
-    getChart(userId, chartId){
-      return validateHasAllInput(2, userId, chartId)
+    getChart(chartId){
+      return validateHasAllInput(1, chartId)
       .then(function (){
         return query(`
         SELECT * FROM ${CHARTSTABLE}
-        WHERE "userId" = ${userId}
-        AND "id" = ${chartId};
+        WHERE "id" = ${chartId};
         `);
       });
     },

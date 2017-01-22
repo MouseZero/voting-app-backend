@@ -44,6 +44,20 @@ module.exports = function(app, express){
   });
 
 
+  apiRoutes.get('/chart', function(req, res){
+    charts.getChart(req.query.chartId)
+    .then( function(x){
+      res.json({
+        success: true,
+        info: x
+      });
+    })
+    .catch( function(err){
+      res.json({success: false, message: err});
+    });
+  });
+
+
   // Middleware that requires a token for the rest of the API end points
   apiRoutes.use(function(req, res, next){
     let token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -99,19 +113,6 @@ module.exports = function(app, express){
     });
   });
 
-
-  apiRoutes.get('/chart', function(req, res){
-    charts.getChart(req.decoded.id, req.query.chartId)
-    .then( function(x){
-      res.json({
-        success: true,
-        info: x
-      });
-    })
-    .catch( function(err){
-      res.json({success: false, message: err});
-    });
-  });
 
   apiRoutes.post('/delete/chart', function(req, res){
     charts.deleteChart(req.decoded.id, req.body.chartId)
