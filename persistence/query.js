@@ -1,6 +1,7 @@
 const R = require('ramda');
 
-module.exports = R.curry( function(pool, queryString, params){
+module.exports = R.curry( function(pool, queryString){
+  const params = arguments[2] || [];
   return new Promise(function(resolve, reject){
 
     pool.connect( function(err, client, done){
