@@ -21,11 +21,11 @@ module.exports=function(pool){
       return validateHasAllInput(4, userId, title, desc, data)
       .then(function (){
         return query(`
-          INSERT INTO ${CHARTSTABLE}
+          INSERT INTO $1
           ("userId", "title", "description", "data")
           VALUES
-          ('${userId}', '${title}', '${desc}', '${data}');
-        `)
+          ('$2', '$3', '$4', '$5');
+        `, [CHARTSTABLE, userId, title, desc, data])
       })
     },
 
@@ -34,9 +34,9 @@ module.exports=function(pool){
       return validateHasAllInput(1, userId)
       .then( function(){
         return query(`
-          SELECT * FROM ${CHARTSTABLE}
-          WHERE "userId" = ${userId};
-        `)
+          SELECT * FROM $1
+          WHERE "userId" = $2;
+        `, [CHARTSTABLE, userId]);
       });
     },
 
@@ -45,9 +45,9 @@ module.exports=function(pool){
       return validateHasAllInput(1, chartId)
       .then(function (){
         return query(`
-        SELECT * FROM ${CHARTSTABLE}
-        WHERE "id" = ${chartId};
-        `);
+        SELECT * FROM $1
+        WHERE "id" = $2;
+        `, [CHARTSTABLE, chartId]);
       });
     },
 
@@ -55,10 +55,10 @@ module.exports=function(pool){
       return validateHasAllInput(2, userId, chartId)
       .then( function(){
         return query(`
-          DELETE FROM ${CHARTSTABLE}
-          WHERE "userId" = ${userId}
-          AND "id" = ${chartId};
-        `);
+          DELETE FROM $1
+          WHERE "userId" = $2
+          AND "id" = $3;
+        `, [CHARTSTABLE, userId, chartId]);
       })
     }
 

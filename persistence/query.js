@@ -1,14 +1,14 @@
 const R = require('ramda');
 
-module.exports = R.curry( function(pool, queryString){
+module.exports = R.curry( function(pool, queryString, params){
   return new Promise(function(resolve, reject){
-  
+
     pool.connect( function(err, client, done){
       if(err){
         return reject('Error fetching client pool for postresql');
       }
 
-      client.query(queryString, [], function(err, result){
+      client.query(queryString, params, function(err, result){
         if(err){
           return reject('error running query:: ' + err);
         }
