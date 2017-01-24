@@ -114,7 +114,7 @@ module.exports = function(app, express){
   });
 
 
-  apiRoutes.post('/delete/chart', function(req, res){
+  apiRoutes.delete('/delete/chart', function(req, res){
     charts.deleteChart(req.decoded.id, req.body.chartId)
     .then( function(x){
       res.json({success: true, info: x})
