@@ -6,10 +6,10 @@ module.exports=function(pool){
   const query = databaseQuerier(pool);
 
   return {
-      
+
     isUser(user){
       return new Promise(function(resolve, reject){
-        query(`select * from ${USERTABLE} where "user" = '${user}';`)
+        query(`select * from ${USERTABLE} where "user" = $1;`, [user])
         .then(function(x){
           if(!!x.length){
             resolve();
@@ -35,7 +35,7 @@ module.exports=function(pool){
 
     getUser(user, password){
       return new Promise( function(resolve, reject) {
-        query(`select * from ${USERTABLE} where "user" = '${user}';`)
+        query(`select * from ${USERTABLE} where "user" = $1;`, [user])
         .then(function (x) {
           const result = x[0];
           result.password = result.password.trim();
@@ -51,10 +51,10 @@ module.exports=function(pool){
       return new Promise( function(resolve, reject){
         bcrypt.hash(password, 9).then(function(hash) {
           const queryPromise = query(`
-            INSERT INTO 
-            ${USERTABLE} ("user", "password") 
-            VALUES ('${userName}', '${hash}');
-          `);
+            INSERT INTO
+            ${USERTABLE} ("user", "password")
+            VALUES ($1, $2);
+          `, [userName, hash]);
           queryPromise.then(function(x){
             resolve();
           }).catch(function (err){
