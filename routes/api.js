@@ -115,6 +115,7 @@ module.exports = function(app, express){
 
 
   apiRoutes.delete('/delete/chart', function(req, res){
+    console.log('delete api is called');
     charts.deleteChart(req.decoded.id, req.body.chartId)
     .then( function(x){
       res.json({success: true, info: x})
