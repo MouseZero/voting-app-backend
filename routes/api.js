@@ -36,7 +36,7 @@ module.exports = function(app, express){
 
   apiRoutes.post('/create/user', function(req, res){
     users.createNewUser(req.body.name, req.body.password)
-    .then(function(created){
+    .then(function(){
       res.json({success: true, message: `Created the ${req.body.name} user.`})
     }).catch(function(err){
       res.json({success: false, message: err});

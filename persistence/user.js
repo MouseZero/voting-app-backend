@@ -49,32 +49,43 @@ module.exports=function(pool){
 
     createNewUser(userName, password){
       return new Promise( function(resolve, reject){
-        bcrypt.hash(password, 9)
-        .then(function(hash) {
+        hasUserInDB(userName, query)
+        .then(function(){
+          return bcrypt.hash(password, 9)
+        })
+        .then(function(hash){
           return query(`
             INSERT INTO
             ${USERTABLE} ("user", "password")
             VALUES ($1, $2);
           `, [userName, hash]);
         })
-        .then(function(x){
-            resolve();
+        .then(function(data){
+          resolve();
         })
-        .catch(function (err){
-          reject(`Could not create the user ${userName}. This user name may already be taken`);
+        .catch(function(err){
+          reject(err);
         })
       });
-    }
+    },
 
   }
 }
 
-function hasUserInDB(userName){
+function hasUserInDB(userName, query){
   return new Promise( function(resolve, reject){
-    return query(`
+    const answer = query(`
       select COUNT(*) from "users"
       where "user" = $1
       ;
     `, [userName]);
-  })
+    answer.then((data) => {
+      const isNoOtherUserWithName = !parseInt(data[0].count);
+      isNoOtherUserWithName && resolve();
+      reject('There is already a user with that name');
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
 }
