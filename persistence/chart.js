@@ -15,9 +15,7 @@ function validateHasAllInput(numbeOfArguments){
 module.exports=function(pool){
   const query = databaseQuerier(pool);
 
-  return {
-
-    createChart({userId, title, desc, data}){
+    function createChart({userId, title, desc, data}){
       return validateHasAllInput(4, userId, title, desc, data)
       .then(function (){
         return query(`
@@ -27,10 +25,9 @@ module.exports=function(pool){
           ($1, $2, $3, $4);
         `, [userId, title, desc, data])
       })
-    },
+    }
 
-
-    getChartList(userId){
+    function getChartList(userId){
       return validateHasAllInput(1, userId)
       .then( function(){
         return query(`
@@ -38,10 +35,9 @@ module.exports=function(pool){
           WHERE "userId" = $1;
         `, [userId]);
       });
-    },
+    }
 
-
-    getChart(chartId){
+    function getChart(chartId){
       return validateHasAllInput(1, chartId)
       .then(function (){
         return query(`
@@ -49,9 +45,9 @@ module.exports=function(pool){
         WHERE "id" = $1;
         `, [chartId]);
       });
-    },
+    }
 
-    deleteChart(userId, chartId){
+    function deleteChart(userId, chartId){
       return validateHasAllInput(2, userId, chartId)
       .then( function(){
         return query(`
@@ -62,6 +58,10 @@ module.exports=function(pool){
       })
     }
 
-
+  return {
+    createChart,
+    getChartList,
+    getChart,
+    deleteChart
   }
 }

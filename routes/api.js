@@ -57,6 +57,21 @@ module.exports = function(app, express){
     });
   });
 
+  apiRoutes.get('/vote', function(req, res){
+    charts.getChart(req.query.chartId)
+    .then( chart => {
+      res.json({
+        success: true,
+        info: chart
+      })
+    })
+    .catch(err => {
+      res.json({
+        success: false,
+        message: err
+      })
+    })
+  });
 
   // Middleware that requires a token for the rest of the API end points
   apiRoutes.use(function(req, res, next){
