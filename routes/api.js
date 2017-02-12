@@ -58,7 +58,7 @@ module.exports = function(app, express){
   });
 
   apiRoutes.get('/vote', function(req, res){
-    charts.getChart(req.query.chartId)
+    charts.vote(req.query.chartid, req.query.votefor)
     .then( chart => {
       res.json({
         success: true,

@@ -18,6 +18,7 @@ module.exports=function(pool){
     function createChart({userId, title, desc, data}){
       return validateHasAllInput(4, userId, title, desc, data)
       .then(function (){
+        data = JSON.parse(data)
         return query(`
           INSERT INTO ${CHARTSTABLE}
           ("userId", "title", "description", "data")
@@ -47,6 +48,30 @@ module.exports=function(pool){
       });
     }
 
+    function vote(chartId, voteFor){
+      return validateHasAllInput(2, chartId, voteFor)
+      .then( () => {
+        return query(`
+          SELECT * FROM ${CHARTSTABLE}
+          WHERE "id" = $1;
+        `, [chartId]);
+      })
+      .then( (data) => {
+        const votingData = data[0].data;
+        if(votingData[voteFor] || votingData[voteFor] === 0){
+          votingData[voteFor] = votingData[voteFor] + 1
+        }
+        return votingData
+      })
+      .then( votingData => {
+        return query(`
+          UPDATE ${CHARTSTABLE}
+          SET data = $1
+          WHERE id = ${chartId};
+        `, [votingData])
+      })
+    }
+
     function deleteChart(userId, chartId){
       return validateHasAllInput(2, userId, chartId)
       .then( function(){
@@ -62,6 +87,7 @@ module.exports=function(pool){
     createChart,
     getChartList,
     getChart,
+    vote,
     deleteChart
   }
 }
