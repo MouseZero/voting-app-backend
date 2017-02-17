@@ -48,6 +48,14 @@ module.exports=function(pool){
       });
     }
 
+    function getLatestCharts(){
+      return query(`
+          SELECT * FROM ${CHARTSTABLE}
+          ORDER BY id DESC
+          LIMIT 4;
+        `);
+    }
+
     function vote(chartId, voteFor){
       return validateHasAllInput(2, chartId, voteFor)
       .then( () => {
@@ -86,6 +94,7 @@ module.exports=function(pool){
   return {
     createChart,
     getChartList,
+    getLatestCharts,
     getChart,
     vote,
     deleteChart

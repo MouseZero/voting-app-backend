@@ -57,6 +57,22 @@ module.exports = function(app, express){
     });
   });
 
+  apiRoutes.get('/latestcharts', function(req, res){
+    charts.getLatestCharts()
+    .then( charts => {
+      res.json({
+        success: true,
+        info: charts
+      })
+    })
+    .catch(err => {
+      res.json({
+        success: false,
+        message: err
+      })
+    })
+  });
+
   apiRoutes.get('/vote', function(req, res){
     charts.vote(req.query.chartid, req.query.votefor)
     .then( chart => {
