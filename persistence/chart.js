@@ -72,12 +72,16 @@ module.exports=function(pool){
         return votingData
       })
       .then( votingData => {
-        return query(`
-          UPDATE ${CHARTSTABLE}
-          SET data = $1
-          WHERE id = ${chartId};
-        `, [votingData])
+        return updateData(chartId, votingData)
       })
+    }
+
+    function updateData(chartId, votingData){
+      return query(`
+        UPDATE ${CHARTSTABLE}
+        SET data = $1
+        WHERE id = ${chartId};
+      `, [votingData])
     }
 
     function deleteChart(userId, chartId){
@@ -95,6 +99,7 @@ module.exports=function(pool){
     createChart,
     getChartList,
     getLatestCharts,
+    updateData,
     getChart,
     vote,
     deleteChart

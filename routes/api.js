@@ -130,6 +130,32 @@ module.exports = function(app, express){
     });
   });
 
+  apiRoutes.post('/add/answer', function(req, res){
+    const {chartid, newanswer} = req.body;
+    charts.getChart(chartid)
+    .then(function (data){
+      const newData = Object.assign({}, data[0].data, {[newanswer]: 0})
+      return newData
+    })
+    .then(function (chartData){
+      return charts.updateData(chartid, chartData)
+    })
+    .then(function (chartData){
+      res.json({
+        success: true,
+        message: 'added answer to poll'
+      })
+      return
+    })
+    .catch(function(err){
+      res.json({
+        success: false,
+        message: `Could not add ${newanswer} to chart ${chartid}`,
+        error: err
+      })
+    })
+  })
+
 
   apiRoutes.get('/charts', function(req, res){
     charts.getChartList(req.decoded.id)
