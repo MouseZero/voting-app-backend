@@ -1,0 +1,12 @@
+{
+  "secret": "dfa2d392c07b60057ji5b85c69261657cbfbki5",
+  "database": {
+    "user": "dev",
+    "password": "681asdm58a12z",
+    "database": "fcc_voting_app",
+    "host": "localhost",
+    "port": "5432",
+    "connectionNumber": 3,
+    "idleTimeoutMillis": 30000
+  }
+}
