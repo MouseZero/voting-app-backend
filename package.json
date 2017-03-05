@@ -13,14 +13,14 @@
   "author": "Russell Murray",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^1.0.1",
-    "body-parser": "^1.15.2",
-    "express": "^4.14.0",
-    "jsonwebtoken": "^7.2.1",
-    "pg": "^6.1.1",
-    "ramda": "^0.22.1"
+    "bcryptjs": "2.4.3",
+    "body-parser": "1.15.2",
+    "express": "4.14.0",
+    "jsonwebtoken": "7.2.1",
+    "pg": "6.1.1",
+    "ramda": "0.22.1"
   },
   "devDependencies": {
-    "prompt": "^1.0.0"
+    "prompt": "1.0.0"
   }
 }
